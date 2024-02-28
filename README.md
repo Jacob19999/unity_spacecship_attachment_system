@@ -46,13 +46,14 @@ IAttachable is the other interface that needs to exist to structure the module s
 Here is a quick description of the purpose of the functions:
 
 1.	Attach
+   
 This function attempted to join two modules together in this way:
 1.1.	Align the current module's game object with the game object of the target attachment point.
 1.2.	Set the current module's game object as a child of the parent module's game object. The parent module's game object is retrieved from the target attachment point.
 1.3.	Change the current module's game object rigidbody to kinematic.
 1.4.	Set the attachment flag to true.
 
-2.	Eject
+3.	Eject
    
 This function launches the module away from what it is connected to. Here is how:
 2.1.	Unset the current module's game object as a child of the parent module's game object.
