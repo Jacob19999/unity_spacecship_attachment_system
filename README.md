@@ -14,7 +14,9 @@ To create the basic building blocks of the ship - the modules - I created an int
 
 In the subsequent description of the interfaces, I outline the intended functions as dictated by the interfaces. However, since an interface does not inherently express these implementation intentions, we adopted a traditional class hierarchy to actualize the interfaces. Our game modules then inherited from these classes. This was done primarily to prevent the need to duplicate code across several classes.You could argue that this makes the interfaces redundant.
 
-AttachedModules is simply a list of modules that are attached to this module. As will be shown later - each module may have many attachment points. This list contains a reference to any modules that may occupy and such points. This implicitly creates a tree structure where each ‘node’ may have a number of child ‘nodes’ equal to the number of attachment points the module has. This list is primarily a convenience. All child modules are set as children to the parent module via the game object. You can use transform.GetChild(int index) to access the children of any module - but you would have to loop through all children and filter out unrelated game objects. In all cases the parent is accessed via transform.parent. 
+AttachedModules is simply a list of modules that are attached to this module. As will be shown later - each module may have many attachment points. This list contains a reference to any modules that may occupy and such points. This implicitly creates a tree structure where each ‘node’ may have a number of child ‘nodes’ equal to the number of attachment points the module has. 
+
+This list is primarily a convenience. All child modules are set as children to the parent module via the game object. You can use transform.GetChild(int index) to access the children of any module - but you would have to loop through all children and filter out unrelated game objects. In all cases the parent is accessed via transform.parent. 
 DamageResistance is an instance of the class DamageResistancePercent. This class simply exists to store a float but limit it to between 0 and 1 - thus representing a percent.
 
 IAttachable is the other interface that needs to exist to structure the module system. As you can see it inherits IModule. This interface simply enforces the inclusion of functionality that allows a module to attach to another module. The only state required here is a flag to denote whether the module is attached to something or not. 
@@ -71,8 +73,12 @@ Attachment Points are basically game objects that are positioned at the point on
 
 In order for modules to be attached to each other, the AttachmentPoint class enables 
 precise alignment based on the position and rotation of the game object that the AttachmentPoint instance is attached to. When the Attach() function is called, it uses an AttachmentPoint instance to determine how another module should be aligned and connected. The process involves aligning the forward 	 
+
 An attachment point in the editor. Note the forward vector.
-vectors of the connecting points using quaternion rotations, ensuring that the module is oriented correctly with respect to the target attachment point.The function also adjusts the Z-axis rotation to match that of the attachment point, maintaining consistency in the orientation. Additionally, it calculates the necessary translation to position the module exactly at the attachment point. Once positioned and rotated correctly, the module's GameObject is set as a child of the attachment point's parent GameObject, ensuring it moves and behaves as a unified object.
+vectors of the connecting points using quaternion rotations, ensuring that the module is oriented correctly with respect to the target attachment point.The function also adjusts the Z-axis rotation to match that of the attachment point, maintaining consistency in the orientation. 
+
+Additionally, it calculates the necessary translation to position the module exactly at the attachment point. Once positioned and rotated correctly, the module's GameObject is set as a child of the attachment point's parent GameObject, ensuring it moves and behaves as a unified object.
+
 Finally, the attachment points on both the attaching module and the target module are marked as occupied, and their visual meshes are hidden, indicating that a successful connection has been made.
 In order to determine the AttachmentPoint that should be used to make the connection on the module that the player is holding, each one has a bool named connectionPoint. When the attachment process is invoked on the module the player is holding a linear search is performed on the module’s children. When the first AttachmentPoint with this value set to true is found - it is that point which is joined as described above.
 
