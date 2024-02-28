@@ -14,32 +14,8 @@ To create the basic building blocks of the ship - the modules - I created an int
 
 In the subsequent description of the interfaces, I outline the intended functions as dictated by the interfaces. However, since an interface does not inherently express these implementation intentions, we adopted a traditional class hierarchy to actualize the interfaces. Our game modules then inherited from these classes. This was done primarily to prevent the need to duplicate code across several classes.You could argue that this makes the interfaces redundant.
 
-public interface IModule
-{
-    public GameObject GetGameObject { get; }
-    public string Name { get; set; }
-    public int Health { get; set; } 
-    public int MaxHealth { get; } 
-    public int Mass { get; get; }
-    public DamageResistancePercent DamageResistance { get; set; }
-    public List<IAttachable> AttachedModules { get; set; }
-}
-
-Most of these properties, like “health” are straightforward in their purpose and so I will skip describing them. The two properties that require a more in depth description are AttachedModules and DamageResistance . 
-
 AttachedModules is simply a list of modules that are attached to this module. As will be shown later - each module may have many attachment points. This list contains a reference to any modules that may occupy and such points. This implicitly creates a tree structure where each ‘node’ may have a number of child ‘nodes’ equal to the number of attachment points the module has. This list is primarily a convenience. All child modules are set as children to the parent module via the game object. You can use transform.GetChild(int index) to access the children of any module - but you would have to loop through all children and filter out unrelated game objects. In all cases the parent is accessed via transform.parent. 
 DamageResistance is an instance of the class DamageResistancePercent. This class simply exists to store a float but limit it to between 0 and 1 - thus representing a percent.
-
-public interface IAttachable : IModule
-{
-    public bool IsAttached { get; } 
-    public void Attach(AttachmentPoint attachmentPoint);
-    public void Eject();
-    public void Disconnect(bool removeFromList = true);
-    public void PickUp();
-    public void Release(Vector3 releaseVelocity);
-    public AttachmentPoint FindThisConnectionPoint();
-}
 
 IAttachable is the other interface that needs to exist to structure the module system. As you can see it inherits IModule. This interface simply enforces the inclusion of functionality that allows a module to attach to another module. The only state required here is a flag to denote whether the module is attached to something or not. 
 
