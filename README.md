@@ -1,6 +1,7 @@
 # Modular ship attatchment system in unity
 
 Collaborators : Dustin Frandle and Jacob Tang
+
 In our game, you can build spaceships like you're playing with building blocks in real-time. This idea was inspired by 'Captain Forever,' but we took it a step further by making it in 3D. Each part of the ship, which we call modules, was designed to easily connect with others, forming different shapes and functions. These modules can attach or detach from each other during gameplay. To build a ship you simply click to select a part, drag it over one of the orbs that show up, and then release.
 
 ![image](https://github.com/Jacob19999/unity_spacecship_attachment_system/assets/26366586/1f8ff830-37e5-4d70-8e24-1032b0050f4c)
